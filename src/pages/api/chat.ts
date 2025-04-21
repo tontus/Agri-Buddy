@@ -26,6 +26,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Return the error message as a reply
     const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-    res.status(200).json({ reply: `Error: ${errorMessage}` });
+    const dialouges = [
+      `✊✊✊: জিয়ার সৈনিক, মাইর খায় দৈনিক `,
+      `😡😡😡: বাড়ী কোথায়, গোপালী??`,
+      `💀💀💀: শেখ হাসিনা পালায় না`,
+      `☝️☝️☝️: এই চ্যাটের ১০% আমার`
+    ];
+    const randomReply = dialouges[Math.floor(Math.random() * dialouges.length)];
+    res.status(200).json({ reply: randomReply });
   }
 }
