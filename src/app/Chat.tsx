@@ -48,37 +48,66 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div className="flex flex-col items-center gap-4 p-4">
+    <div
+      className="relative w-full h-full flex items-center justify-center"
+      style={{
+        width: "100vw", // Full width of the viewport
+        height: "100vh", // Full height of the viewport
+      }}
+    >
+      {/* Background Layer */}
       <div
-        ref={chatContainerRef}
-        className="w-full max-w-2xl border rounded-lg p-4 h-96 overflow-y-auto bg-gray-100"
-      >
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`mb-2 ${
-              msg.role === "user" ? "text-right text-blue-600" : "text-left text-gray-800"
-            }`}
-          >
-            <p>{msg.content}</p>
-          </div>
-        ))}
-      </div>
-      <div className="flex w-full max-w-2xl gap-2">
-        <input
-          type="text"
-          className="flex-1 border rounded-lg p-2"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Type your message..."
-        />
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-          onClick={sendMessage}
+        style={{
+          backgroundImage: "url('/background.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "50%", // Scale the image to 50% of its original size
+          backgroundPosition: "top left",
+          opacity: 0.4, // Set the opacity to 50%
+        }}
+        className="absolute top-0 left-0 w-full h-full rounded-lg"
+      ></div>
+
+      {/* Content Layer */}
+      <div className="relative flex flex-col items-center justify-center">
+        {/* Heading */}
+        <div className="w-full max-w-2xl bg-gray-800 text-white text-center py-4 rounded-lg mb-2">
+          <h1 className="text-4xl font-bold">Agri Buddy</h1>
+        </div>
+
+        {/* Chat Container */}
+        <div
+          ref={chatContainerRef}
+          className="w-full max-w-2xl border rounded-lg p-4 h-96 overflow-y-auto bg-gray-800 text-white"
         >
-          Send
-        </button>
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`mb-2 ${
+                msg.role === "user" ? "text-right text-blue-400" : "text-left text-gray-300"
+              }`}
+            >
+              <p>{msg.content}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Input Section */}
+        <div className="flex w-full max-w-2xl gap-2 mt-4">
+          <input
+            type="text"
+            className="flex-1 border border-gray-600 rounded-lg p-2 bg-gray-700 text-white placeholder-gray-400"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Type your message..."
+          />
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            onClick={sendMessage}
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );
