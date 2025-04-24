@@ -1,37 +1,81 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import axios from "axios"; // Import axios for file upload
 
 export default function Chat() {
-  const [messages, setMessages] = useState<{ role: string; content: string }[]>(
-    []
-  );
+  const [messages, setMessages] = useState<{ role: string; content: string | JSX.Element }[]>([]);
   const [input, setInput] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [apiEndpoint, setApiEndpoint] = useState("");
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!apiEndpoint.trim()) {
+      alert("Please enter a valid API endpoint.");
+      return;
+    }
 
-    const userMessage = { role: "user", content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    if (!input.trim() && !file) return;
 
-    setInput("");
+    if (file) {
+      await sendFile(file);
+      setFile(null); // Reset file after upload
+    } else {
+      const userMessage = { role: "user", content: input };
+      setMessages((prev) => [...prev, userMessage]);
+      setInput("");
+
+      try {
+        const response = await fetch(apiEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: [...messages, userMessage] }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
+        } else {
+          console.error("Failed to fetch response from API");
+        }
+      } catch (error) {
+        console.error("Error communicating with the backend:", error);
+      }
+    }
+  };
+
+  const sendFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, userMessage] }),
+      const response = await axios.post(apiEndpoint, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
+      if (response.status === 200) {
+        const data = response.data;
+        const fileUrl = URL.createObjectURL(file); // Create a local URL for the uploaded file
+        setMessages((prev) => [
+          ...prev,
+          { role: "user", content: <img src={fileUrl} alt="Uploaded file" className="max-w-xs max-h-48" /> },
+          { role: "assistant", content: `File processed: it has ${data['Label Name']}` },
+        ]);
       } else {
-        console.error("Failed to fetch response from API");
+        console.error("Failed to upload file");
       }
     } catch (error) {
-      console.error("Error communicating with the backend:", error);
+      console.error("Error uploading file:", error);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
     }
   };
 
@@ -69,6 +113,17 @@ export default function Chat() {
 
       {/* Content Layer */}
       <div className="relative flex flex-col items-center justify-center">
+        {/* API Endpoint Input */}
+        <div className="w-full max-w-2xl mb-4">
+          <input
+            type="text"
+            className="w-full border border-gray-600 rounded-lg p-2 bg-gray-700 text-white placeholder-gray-400"
+            value={apiEndpoint}
+            onChange={(e) => setApiEndpoint(e.target.value)}
+            placeholder="Enter API endpoint..."
+          />
+        </div>
+
         {/* Heading */}
         <div className="w-full max-w-2xl bg-gray-800 text-white text-center py-4 rounded-lg mb-2">
           <h1 className="text-4xl font-bold">Agri Buddy</h1>
@@ -86,7 +141,7 @@ export default function Chat() {
                 msg.role === "user" ? "text-right text-blue-400" : "text-left text-gray-300"
               }`}
             >
-              <p>{msg.content}</p>
+              {typeof msg.content === "string" ? <p>{msg.content}</p> : msg.content}
             </div>
           ))}
         </div>
@@ -107,6 +162,15 @@ export default function Chat() {
           >
             Send
           </button>
+        </div>
+
+        {/* File Upload Section */}
+        <div className="flex w-full max-w-2xl gap-2 mt-4">
+          <input
+            type="file"
+            className="flex-1 border border-gray-600 rounded-lg p-2 bg-gray-700 text-white placeholder-gray-400"
+            onChange={handleFileChange}
+          />
         </div>
       </div>
     </div>
