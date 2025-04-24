@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import axios from "axios"; // Import axios for file upload
+import { JSX } from "react/jsx-runtime";
 
 export default function Chat() {
   const [messages, setMessages] = useState<{ role: string; content: string | JSX.Element }[]>([]);
