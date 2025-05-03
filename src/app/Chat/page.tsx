@@ -17,38 +17,22 @@ export default function Chat() {
       return;
     }
 
-    if (!input.trim() && !file) return;
-
-    if (file) {
-      await sendFile(file);
-      setFile(null); // Reset file after upload
-    } else {
-      const userMessage = { role: "user", content: input };
-      setMessages((prev) => [...prev, userMessage]);
-      setInput("");
-
-      try {
-        const response = await fetch(apiEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: [...messages, userMessage] }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
-        } else {
-          console.error("Failed to fetch response from API");
-        }
-      } catch (error) {
-        console.error("Error communicating with the backend:", error);
-      }
+    if (!input.trim() && !file) {
+      alert("Please provide a message or upload a file.");
+      return;
     }
-  };
 
-  const sendFile = async (file: File) => {
     const formData = new FormData();
-    formData.append("file", file);
+
+    // Add text input if available
+    if (input.trim()) {
+      formData.append("message", input);
+    }
+
+    // Add file if available
+    if (file) {
+      formData.append("file", file);
+    }
 
     try {
       const response = await axios.post(apiEndpoint, formData, {
@@ -59,17 +43,27 @@ export default function Chat() {
 
       if (response.status === 200) {
         const data = response.data;
-        const fileUrl = URL.createObjectURL(file); // Create a local URL for the uploaded file
+
+        // Handle the response and update the messages
+        const userMessage = {
+          role: "user",
+          content: input || (file && <img src={URL.createObjectURL(file)} alt="Uploaded file" className="max-w-xs max-h-48" />),
+        };
+
         setMessages((prev) => [
           ...prev,
-          { role: "user", content: <img src={fileUrl} alt="Uploaded file" className="max-w-xs max-h-48" /> },
-          { role: "assistant", content: `File processed: it has ${data['Label Name']}` },
+          userMessage,
+          { role: "assistant", content: data.message || "File processed successfully." },
         ]);
+
+        // Reset input and file
+        setInput("");
+        setFile(null);
       } else {
-        console.error("Failed to upload file");
+        console.error("Failed to send message or upload file.");
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.error("Error communicating with the backend:", error);
     }
   };
 
