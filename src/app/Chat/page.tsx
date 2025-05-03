@@ -80,7 +80,7 @@ export default function Chat() {
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       sendMessage();
     }
@@ -102,14 +102,6 @@ export default function Chat() {
     >
       {/* Background Layer */}
       <div
-        style={{
-          backgroundImage: "url('/background.png')",
-          backgroundRepeat: "repeat",
-          backgroundSize: "50%", // Scale the image to 50% of its original size
-          backgroundPosition: "top left",
-          opacity: 0.4, // Set the opacity to 50%
-        }}
-        className="absolute top-0 left-0 w-full h-full rounded-lg"
       ></div>
 
       {/* Content Layer */}
@@ -118,7 +110,7 @@ export default function Chat() {
         <div className="w-full max-w-2xl mb-4">
           <input
             type="text"
-            className="w-full border border-gray-600 rounded-lg p-2 bg-gray-700 text-white placeholder-gray-400"
+            className="input"
             value={apiEndpoint}
             onChange={(e) => setApiEndpoint(e.target.value)}
             placeholder="Enter API endpoint..."
@@ -126,52 +118,68 @@ export default function Chat() {
         </div>
 
         {/* Heading */}
-        <div className="w-full max-w-2xl bg-gray-800 text-white text-center py-4 rounded-lg mb-2">
+        <div className="w-full max-w-2xl text-primary text-center py-4 rounded-lg mb-2">
           <h1 className="text-4xl font-bold">Agri Buddy</h1>
         </div>
 
         {/* Chat Container */}
         <div
           ref={chatContainerRef}
-          className="w-full max-w-2xl border rounded-lg p-4 h-96 overflow-y-auto bg-gray-800 text-white"
+          className="w-full max-w-2xl border border-transparent rounded-lg p-4 h-100 overflow-y-auto"
         >
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`mb-2 ${
-                msg.role === "user" ? "text-right text-blue-400" : "text-left text-gray-300"
+              className={`mb-4 flex ${
+                msg.role === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              {typeof msg.content === "string" ? <p>{msg.content}</p> : msg.content}
+              <div
+                className={`max-w-xs px-4 py-2 rounded-lg ${
+                  msg.role === "user"
+                    ? "bg-primary text-background text-right"
+                    : "bg-gray-300 text-gray-800 text-left"
+                }`}
+              >
+                {typeof msg.content === "string" ? <p>{msg.content}</p> : msg.content}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Input Section */}
-        <div className="flex w-full max-w-2xl gap-2 mt-4">
-          <input
-            type="text"
-            className="flex-1 border border-gray-600 rounded-lg p-2 bg-gray-700 text-white placeholder-gray-400"
+        {/* Combined Input Section */}
+        <div className="flex w-full max-w-2xl gap-2 mt-4 items-center border border-primary rounded-lg p-2">
+          <textarea
+            className="flex-1 bg-transparent text-primary  placeholder-primary focus:outline-none resize-none overflow-y-auto"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setInput(e.target.value);
+              e.target.style.height = "auto"; // Reset height
+              e.target.style.height = `${Math.min(e.target.scrollHeight, 4 * 24)}px`; // Adjust height up to 4 lines
+            }}
             onKeyDown={handleKeyDown}
             placeholder="Type your message..."
+            rows={1} // Start with a single row
+            style={{ maxHeight: "96px" }} // Limit height to 4 lines (24px per line)
+          />
+          <label
+            htmlFor="file-upload"
+            className="cursor-pointer text-gray-400 hover:text-white flex items-center"
+          >
+            <i className="fas fa-paperclip text-lg text-primary"></i> {/* Font Awesome icon */}
+          </label>
+          <input
+            id="file-upload"
+            type="file"
+            className="hidden"
+            onChange={handleFileChange}
           />
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary"
             onClick={sendMessage}
           >
             Send
           </button>
-        </div>
-
-        {/* File Upload Section */}
-        <div className="flex w-full max-w-2xl gap-2 mt-4">
-          <input
-            type="file"
-            className="flex-1 border border-gray-600 rounded-lg p-2 bg-gray-700 text-white placeholder-gray-400"
-            onChange={handleFileChange}
-          />
         </div>
       </div>
     </div>

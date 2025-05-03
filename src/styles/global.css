@@ -1,6 +1,126 @@
-body {
-  background-image: url('/background.png');
-  background-repeat: repeat;
-  background-size: auto;
-  background-position: top left;
+/* Background colors */
+.bg-background {
+  background-color: var(--background);
+}
+
+.bg-foreground {
+  background-color: var(--foreground);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.bg-secondary {
+  background-color: var(--secondary);
+}
+
+.bg-accent {
+  background-color: var(--accent);
+}
+
+/* Text colors */
+.text-background {
+  color: var(--background);
+}
+
+.text-foreground {
+  color: var(--foreground);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+/* Border colors */
+.border-background {
+  border-color: var(--background);
+}
+
+.border-foreground {
+  border-color: var(--foreground);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+.border-secondary {
+  border-color: var(--secondary);
+}
+
+.border-accent {
+  border-color: var(--accent);
+}
+
+/* Hover effects with opacity */
+.hover-bg-primary:hover {
+  background-color: var(--primary);
+  opacity: 0.8;
+}
+
+.hover-bg-secondary:hover {
+  background-color: var(--secondary);
+  opacity: 0.8;
+}
+
+.hover-bg-accent:hover {
+  background-color: var(--accent);
+  opacity: 0.8;
+}
+
+.hover-text-primary:hover {
+  color: var(--primary);
+  opacity: 0.8;
+}
+
+.hover-text-secondary:hover {
+  color: var(--secondary);
+  opacity: 0.8;
+}
+
+.hover-text-accent:hover {
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+/* Focus effects */
+.focus-border-primary:focus {
+  border-color: var(--primary);
+}
+
+.focus-border-secondary:focus {
+  border-color: var(--secondary);
+}
+
+.focus-border-accent:focus {
+  border-color: var(--accent);
+}
+
+.focus-border-foreground:focus {
+  border-color: var(--foreground);
+}
+
+/* Input focus styles */
+.input {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid var(--primary);
+  border-radius: 0.5rem;
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
 }

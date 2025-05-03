@@ -1,8 +1,15 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import '@fortawesome/fontawesome-free/css/all.min.css';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+  --primary: #397e3b; /* Example primary color */
+  --secondary: #ff9800; /* Example secondary color */
+  --accent: #03a9f4; /* Example accent color */
+  --font-sans: 'Inter', Arial, Helvetica, sans-serif; 
+  --font-mono: 'Courier New', Courier, monospace; /* Optional for monospace */
 }
 
 @theme inline {
@@ -12,15 +19,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --primary: #81c784; /* Adjusted primary color for dark mode */
+    --secondary: #ffb74d; /* Adjusted secondary color for dark mode */
+    --accent: #4fc3f7; /* Adjusted accent color for dark mode */
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans); 
 }
