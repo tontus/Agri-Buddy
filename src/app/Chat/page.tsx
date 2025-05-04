@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios"; // Import axios for file upload
 import { JSX } from "react/jsx-runtime";
+import ReactMarkdown from "react-markdown"; // Import react-markdown
 
 export default function Chat() {
   const [messages, setMessages] = useState<{ role: string; content: string | JSX.Element }[]>([]);
@@ -135,7 +136,11 @@ export default function Chat() {
                     : "bg-gray-300 text-gray-800 text-left"
                 }`}
               >
-                {typeof msg.content === "string" ? <p>{msg.content}</p> : msg.content}
+                {typeof msg.content === "string" ? (
+                  <ReactMarkdown>{msg.content}</ReactMarkdown> // Render Markdown
+                ) : (
+                  msg.content
+                )}
               </div>
             </div>
           ))}
