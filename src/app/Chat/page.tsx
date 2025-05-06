@@ -164,7 +164,7 @@ export default function Chat() {
 
   return (
     <div
-      className="relative w-full h-full flex items-center justify-center"
+      className="relative w-full h-full flex items-center justify-center mb-4"
       style={{
         width: "100vw",
         height: "100vh",
@@ -219,40 +219,44 @@ export default function Chat() {
 
         {/* Combined Input Section */}
         <div className="flex flex-col w-full max-w-5xl gap-2 mt-4">
-          {/* File Preview (shown only when a file is selected) */}
-          {filePreview && (
-            <div className="relative w-full max-w-5xl rounded-lg p-2 border border-primary mb-2">
-              <img 
-                src={filePreview} 
-                alt="File Preview" 
-                className="max-h-48 max-w-5xl mx-auto rounded"
-              />
-              <button 
-                onClick={clearFileSelection}
-                className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
-                title="Remove file"
-              >
-                ×
-              </button>
-            </div>
-          )}
-          
           {/* Input and Buttons */}
           <div className="flex w-full gap-2 items-center border border-primary rounded-lg p-2">
-            <textarea
-              className="flex-1 bg-transparent text-primary placeholder-primary focus:outline-none resize-none overflow-y-auto"
-              value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-                e.target.style.height = "auto";
-                e.target.style.height = `${Math.min(e.target.scrollHeight, 4 * 24)}px`;
-              }}
-              onKeyDown={handleKeyDown}
-              placeholder="Type your message..."
-              rows={1}
-              style={{ maxHeight: "96px" }}
-              disabled={isLoading}
-            />
+            <div className="flex-1 flex flex-col">
+              {/* File Preview (shown inline when a file is selected) */}
+              {filePreview && (
+                <div className="relative mb-2">
+                  <img 
+                    src={filePreview} 
+                    alt="File Preview" 
+                    className="max-h-32 max-w-xs rounded"
+                  />
+                  <button 
+                    onClick={clearFileSelection}
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-600 text-xs"
+                    title="Remove file"
+                  >
+                    ×
+                  </button>
+                </div>
+              )}
+              
+              {/* Text Input */}
+              <textarea
+                className="w-full bg-transparent text-primary placeholder-primary focus:outline-none resize-none overflow-y-auto"
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  e.target.style.height = "auto";
+                  e.target.style.height = `${Math.min(e.target.scrollHeight, 4 * 24)}px`;
+                }}
+                onKeyDown={handleKeyDown}
+                placeholder="Type your message..."
+                rows={1}
+                style={{ maxHeight: "96px" }}
+                disabled={isLoading}
+              />
+            </div>
+            
             <label
               htmlFor="file-upload"
               className={`cursor-pointer text-gray-400 hover:text-white flex items-center ${isLoading || file ? 'opacity-50 pointer-events-none' : ''}`}
@@ -262,7 +266,7 @@ export default function Chat() {
             <input
               id="file-upload"
               type="file"
-              accept="image/*" // Limit to image files
+              accept="image/*"
               className="hidden"
               onChange={handleFileChange}
               disabled={isLoading}
@@ -270,7 +274,7 @@ export default function Chat() {
             <button
               className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary disabled:opacity-50"
               onClick={sendMessage}
-              disabled={isLoading}
+              disabled={isLoading || (!input.trim() && !file)}
             >
               {isLoading ? (
                 <div className="flex items-center">
