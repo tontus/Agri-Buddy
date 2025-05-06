@@ -95,32 +95,31 @@ export default function Chat() {
         height: "100vh", // Full height of the viewport
       }}
     >
-      {/* Background Layer */}
-      <div
-      ></div>
+     
 
       {/* Content Layer */}
       <div className="relative flex flex-col items-center justify-center">
         {/* API Endpoint Input */}
-        <div className="w-full max-w-2xl mb-4">
+        <div className="w-full max-w-6xl mb-4">
           <input
             type="text"
             className="input"
             value={apiEndpoint}
             onChange={(e) => setApiEndpoint(e.target.value)}
             placeholder="Enter API endpoint..."
+            hidden={true}
           />
         </div>
 
         {/* Heading */}
-        <div className="w-full max-w-2xl text-primary text-center py-4 rounded-lg mb-2">
+        <div className="w-full  text-primary text-center py-4 rounded-lg mb-2 mt-2">
           <h1 className="text-4xl font-bold">Agri Buddy</h1>
         </div>
 
         {/* Chat Container */}
         <div
           ref={chatContainerRef}
-          className="w-full max-w-2xl border border-transparent rounded-lg p-4 h-100 overflow-y-auto"
+          className="w-full  border border-transparent rounded-lg p-4 h-140 overflow-y-auto"
         >
           {messages.map((msg, index) => (
             <div
@@ -130,7 +129,7 @@ export default function Chat() {
               }`}
             >
               <div
-                className={`max-w-xs px-4 py-2 rounded-lg ${
+                className={`max-w-7xl px-4 py-2  rounded-lg ${
                   msg.role === "user"
                     ? "bg-primary text-background text-right"
                     : "bg-gray-300 text-gray-800 text-left"
@@ -147,7 +146,7 @@ export default function Chat() {
         </div>
 
         {/* Combined Input Section */}
-        <div className="flex w-full max-w-2xl gap-2 mt-4 items-center border border-primary rounded-lg p-2">
+        <div className="flex w-full max-w-5xl gap-2 mt-4 items-center border border-primary rounded-lg p-2">
           <textarea
             className="flex-1 bg-transparent text-primary  placeholder-primary focus:outline-none resize-none overflow-y-auto"
             value={input}
