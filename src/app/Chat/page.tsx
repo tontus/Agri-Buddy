@@ -180,7 +180,7 @@ export default function Chat() {
             value={apiEndpoint}
             onChange={(e) => setApiEndpoint(e.target.value)}
             placeholder="Enter API endpoint..."
-            hidden
+            // hidden
           />
         </div>
 
