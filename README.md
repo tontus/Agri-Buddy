@@ -1,8 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Agri Buddy
+
+A Bangla AI Assistant for Farmers
+
+## Description
+
+Agri Buddy is an AI-powered assistant designed specifically for Bangladeshi farmers. It provides agricultural guidance, crop recommendations, disease identification, and farming best practices in Bangla language, making technology accessible to local farmers.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 16.8 or later
+- npm, yarn, pnpm, or bun package manager
+
+### Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/AgriBRACUtion/Agri-Buddy-FrontEnd
+cd Agri-Buddy
+npm install
+```
+
+### Running the Development Server
+
+Start the development server with one of the following commands:
 
 ```bash
 npm run dev
@@ -14,23 +37,28 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### API Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application requires connection to a backend API. You can:
 
-## Learn More
+1. Configure the API endpoint directly in the chat interface
+2. Use the included proxy for connecting to non-SSL APIs from an SSL-secured frontend
 
-To learn more about Next.js, take a look at the following resources:
+## Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Bangla language support for farmers
+- Image-based crop disease identification
+- Agricultural guidance and recommendations
+- User-friendly interface optimized for various devices
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Technology
 
-## Deploy on Vercel
+This project is built with [Next.js](https://nextjs.org) and was bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The easiest way to deploy Agri Buddy is to use the [Vercel Platform](https://vercel.com/new).
+
+For other deployment options, check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
