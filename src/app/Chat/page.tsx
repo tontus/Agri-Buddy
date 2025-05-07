@@ -10,7 +10,7 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null); // Add file preview state
-  const [apiEndpoint, setApiEndpoint] = useState("");
+  const [apiEndpoint, setApiEndpoint] = useState("https://b8f2-202-134-10-140.ngrok-free.app");
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -180,6 +180,7 @@ export default function Chat() {
             value={apiEndpoint}
             onChange={(e) => setApiEndpoint(e.target.value)}
             placeholder="Enter API endpoint..."
+            hidden
           />
         </div>
 
