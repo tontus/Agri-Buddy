@@ -10,7 +10,7 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null); // Add file preview state
-  const [apiEndpoint, setApiEndpoint] = useState("https://39d3-163-53-148-158.ngrok-free.app");
+  const [apiEndpoint, setApiEndpoint] = useState("https://b8f2-202-134-10-140.ngrok-free.app");
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
