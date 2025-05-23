@@ -10,7 +10,7 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null); // Add file preview state
-  const [apiEndpoint, setApiEndpoint] = useState("https://agribracution.eu-north-1.elasticbeanstalk.com/");
+  const [apiEndpoint, setApiEndpoint] = useState("https://dff0-103-77-18-168.ngrok-free.app");
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
